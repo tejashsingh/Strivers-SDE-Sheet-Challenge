@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+int cnt=0;
+int merge(long long* arr, int lb, int ub,int mid)
+{
+    long long l[mid-lb+1],r[ub-mid];
+    for(int i=lb;i<=mid;i++){
+        l[i-lb]=arr[i];
+    }
+
+    for(int i=mid+1;i<=ub;i++){
+        r[i-mid-1]=arr[i];
+    }
+
+    int i=lb,j=mid+1,k=lb;
+    while(k<=ub && i<=mid && j<=ub){
+        if(l[i-lb]<=r[j-mid-1]){
+            arr[k]=l[i-lb];
+            i++;
+        }
+        else{
+            cnt+=mid-i+1;
+            arr[k]=r[j-mid-1];
+            j++;
+        }
+        k++;
+    }
+    while(k<=ub && i<=mid){
+        arr[k]=l[i-lb];
+        i++;
+        k++;
+    }
+    while(k<=ub && j<=ub){
+        arr[k]=r[j-mid-1];
+        j++;
+        k++;
+    }
+}
+void mergeSort(long long* arr, int lb, int ub)
+{
+    //code here
+    if(lb<ub){
+        int mid=(lb+ub)/2;
+        mergeSort(arr,lb,mid);
+        mergeSort(arr,mid+1,ub);
+        merge(arr,lb,ub,mid);
+    }
+}
+
+int getInversions(long long *arr, int n){
+    // Write your code here.
+    mergeSort(arr,0,n-1);
+    return cnt;
+}
