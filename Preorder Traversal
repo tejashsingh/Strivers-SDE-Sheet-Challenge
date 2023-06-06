@@ -1,0 +1,36 @@
+#include <bits/stdc++.h> 
+/*
+    Following is Binary Tree Node structure:
+    class TreeNode
+    {
+    public:
+        int data;
+        TreeNode *left, *right;
+        TreeNode() : data(0), left(NULL), right(NULL) {}
+        TreeNode(int x) : data(x), left(NULL), right(NULL) {}
+        TreeNode(int x, TreeNode *left, TreeNode *right) : data(x), left(left), right(right) {}
+    };
+*/
+vector<int> getPreOrderTraversal(TreeNode *root)
+{
+    // Write your code here.
+    TreeNode* curr=root;
+    vector<int>ans;
+    while(curr){
+        ans.push_back(curr->data);
+        if(curr->left==NULL){
+            curr=curr->right;
+        }
+        else{
+            TreeNode* pre=curr->left;
+            while(pre->right!=NULL){
+                pre=pre->right;
+            }
+            pre->right=curr->right;
+            TreeNode* temp=curr->left;
+            curr->left=NULL;
+            curr=temp;
+        }
+    }
+    return ans;
+}
